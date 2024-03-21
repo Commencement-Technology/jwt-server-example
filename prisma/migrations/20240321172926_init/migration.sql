@@ -3,7 +3,7 @@ CREATE TABLE `User` (
     `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
     `imageUrl` VARCHAR(191) NULL DEFAULT 'https://res.cloudinary.com/dcy8a9bou/image/upload/v1707037177/IMG_378943359_ic_admin_user_default_z8bxwf.svg',
-    `phoneNumber` VARCHAR(191) NULL,
+    `phoneNumber` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
