@@ -7,12 +7,12 @@ import {
   Res,
   UnauthorizedException,
 } from '@nestjs/common';
-import { LoginDto } from './dto/login-dto';
-import { DatabaseService } from '@/database/database.service';
-import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 import { Request, Response } from 'express';
-import { JwtSecret } from './auth.module';
+import { LoginDto } from '@/auth/dto/login-dto';
+import { DatabaseService } from '@/database/database.service';
+import { JwtSecret } from '@/auth/auth.module';
 
 @Injectable()
 export class AuthService {
