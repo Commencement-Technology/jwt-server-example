@@ -41,7 +41,7 @@ export class UsersService {
       );
     }
 
-    return this.databaseService.user.update({
+    return await this.databaseService.user.update({
       where: { id },
       data: updateUserDto,
     });
