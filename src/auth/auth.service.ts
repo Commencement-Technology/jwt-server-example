@@ -45,7 +45,7 @@ export class AuthService {
       userId: id,
     };
 
-    const accessToken = this.jwtService.sign(UserInfo, { expiresIn: '30s' });
+    const accessToken = this.jwtService.sign(UserInfo, { expiresIn: '2m' });
 
     const refreshToken = this.jwtService.sign(
       { userId: id },
@@ -55,11 +55,16 @@ export class AuthService {
     response
       .cookie('refreshToken', refreshToken, {
         httpOnly: true, // accessible only by the web server
-        secure: true, // https
-        sameSite: 'none', // cross-site cookie
+        secure: false, // https
+        sameSite: 'strict', // cross-site cookie
         maxAge: 7 * 24 * 60 * 60 * 1000, // cookie exprire
       })
-      .send({ accessToken });
+      .status(200)
+      .send({
+        status: true,
+        message: 'Login Sucessfully',
+        payload: { accessToken },
+      });
   }
 
   async refreshToken(
@@ -68,7 +73,7 @@ export class AuthService {
   ) {
     const cookies = request.cookies;
 
-    if (!cookies?.refreshToken) throw new UnauthorizedException();
+    if (!cookies?.refreshToken) throw new ForbiddenException();
 
     const refreshToken = cookies.refreshToken;
 
@@ -92,7 +97,13 @@ export class AuthService {
 
     const accessToken = this.jwtService.sign(UserInfo, { expiresIn: '30s' });
 
-    response.send({ accessToken });
+    response.status(200).send({
+      status: true,
+      message: 'Token Refresh Sucessfully',
+      payload: {
+        accessToken,
+      },
+    });
   }
 
   async logout(
@@ -106,9 +117,9 @@ export class AuthService {
       .clearCookie('refreshToken', {
         httpOnly: true, // accessible only by the web server
         secure: true, // https
-        sameSite: 'none', // cross-site cookie
+        sameSite: 'strict', // cross-site cookie
       })
       .status(200)
-      .send({ message: 'Logout Successfully' });
+      .send({ status: true, message: 'Logout Successfully', payload: {} });
   }
 }

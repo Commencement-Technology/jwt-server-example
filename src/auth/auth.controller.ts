@@ -16,7 +16,6 @@ import {
   ApiBearerAuth,
   ApiBody,
   ApiOkResponse,
-  ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 
@@ -25,10 +24,10 @@ import {
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post()
-  @ApiResponse({ type: AuthEntity })
+  @Post('/login')
+  @ApiOkResponse({ type: AuthEntity })
   @ApiBody({ type: LoginDto })
-  create(
+  login(
     @Req() request: Request,
     @Res({ passthrough: true }) response: Response,
     @Body() loginDto: LoginDto,
