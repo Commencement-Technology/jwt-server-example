@@ -24,9 +24,16 @@ export class UsersService {
   }
 
   async findAll() {
-    return await this.databaseService.user.findMany({
+    const users = await this.databaseService.user.findMany({
       include: { authentication: { select: { email: true, role: true } } },
     });
+
+    const normalizeUser = users.map((user) => {
+      const { authentication, ...rest } = user;
+      return { ...rest, ...authentication };
+    });
+
+    return normalizeUser;
   }
 
   async findOne(id: string) {

@@ -95,7 +95,7 @@ export class AuthService {
       userId: id,
     };
 
-    const accessToken = this.jwtService.sign(UserInfo, { expiresIn: '30s' });
+    const accessToken = this.jwtService.sign(UserInfo, { expiresIn: '2m' });
 
     response.status(200).send({
       status: true,

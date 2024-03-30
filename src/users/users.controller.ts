@@ -40,8 +40,14 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse({ type: UserEntity, isArray: true })
-  findAll() {
-    return this.usersService.findAll();
+  async findAll() {
+    return {
+      status: true,
+      message: 'user fetched successfully',
+      payload: {
+        users: await this.usersService.findAll(),
+      },
+    };
   }
 
   @Get(':id')
