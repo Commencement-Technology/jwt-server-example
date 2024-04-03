@@ -4,6 +4,7 @@ import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
+  IsOptional,
   IsString,
   MinLength,
 } from 'class-validator';
@@ -27,12 +28,13 @@ export class CreateUserDto
   @ApiProperty()
   password: string;
 
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
   @MinLength(10)
   @ApiProperty()
-  phoneNumber: string;
+  phoneNumber?: string;
 
+  @IsOptional()
   @IsEnum(Role)
   @ApiProperty()
   role?: $Enums.Role;
