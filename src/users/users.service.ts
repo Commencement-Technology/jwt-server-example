@@ -14,13 +14,20 @@ export class UsersService {
 
     const hashPassword = await bcrypt.hash(password, SALT_ROUND);
 
-    return await this.databaseService.user.create({
+    const createdUser = await this.databaseService.user.create({
       data: {
         name,
         phoneNumber,
         authentication: { create: { email, password: hashPassword, role } },
       },
+      include: { authentication: { select: { email: true, role: true } } },
     });
+
+    const { authentication, ...rest } = createdUser;
+
+    const user = { ...authentication, ...rest };
+
+    return user;
   }
 
   async findAll() {

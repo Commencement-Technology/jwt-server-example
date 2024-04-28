@@ -32,8 +32,14 @@ export class UsersController {
     description: 'User Created Successfully',
   })
   @ApiBody({ type: CreateUserDto })
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto) {
+    return {
+      status: true,
+      message: 'user created successfully',
+      payload: {
+        user: await this.usersService.create(createUserDto),
+      },
+    };
   }
 
   @Get()
