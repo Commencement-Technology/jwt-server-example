@@ -12,7 +12,7 @@ export class UsersService {
   async create(createUserDto: CreateUserDto) {
     const { email, name, password, phoneNumber, role } = createUserDto;
 
-    const isUserExist = this.databaseService.authentication.findFirst({
+    const isUserExist = await this.databaseService.authentication.findFirst({
       where: { email },
     });
 
