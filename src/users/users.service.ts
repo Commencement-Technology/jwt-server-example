@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
@@ -11,6 +11,13 @@ export class UsersService {
   constructor(private readonly databaseService: DatabaseService) {}
   async create(createUserDto: CreateUserDto) {
     const { email, name, password, phoneNumber, role } = createUserDto;
+
+    const isUserExist = this.databaseService.authentication.findFirst({
+      where: { email },
+    });
+
+    if (isUserExist)
+      throw new ConflictException(`User with email ${email} already exist`);
 
     const hashPassword = await bcrypt.hash(password, SALT_ROUND);
 

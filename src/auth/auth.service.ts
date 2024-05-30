@@ -116,7 +116,7 @@ export class AuthService {
     response
       .clearCookie('refreshToken', {
         httpOnly: true, // accessible only by the web server
-        secure: true, // https
+        secure: false, // https
         sameSite: 'strict', // cross-site cookie
       })
       .status(200)
